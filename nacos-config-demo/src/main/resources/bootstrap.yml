@@ -7,6 +7,8 @@ spring:
         server-addr: localhost:8848
         namespace: dev # 命名空间（需提前在Nacos控制台/配置管理/命名空间创建）
         group: DEFAULT_GROUP # 分组（需提前在Nacos控制台/配置管理/配置列表创建）
+        username: nacos # Nacos 3.1.1+ 需要配置用户名（默认：nacos）
+        password: ${NACOS_PASSWORD:nacos} # Nacos 3.1.1+ 需要配置密码（使用环境变量，默认值：nacos）
         file-extension: yml # 配置文件格式（yml/properties）
         # 扩展配置（多配置文件加载）
         extension-configs:
@@ -20,10 +22,15 @@ spring:
         server-addr: localhost:8848
         namespace: dev
 
-# 配置动态刷新的日志级别
+# 日志配置
 logging:
+  file:
+    path: /tmp/
+    name: /tmp/nacos-config-demo.log
   level:
     com.alibaba.nacos.client.config: INFO
+    root: INFO
+    com.example: DEBUG
 
 server:
   port: 8083

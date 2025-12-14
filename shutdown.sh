@@ -13,44 +13,40 @@ echo -e "${GREEN}   Nacos Best Practice 停止脚本   ${NC}"
 echo -e "${GREEN}=====================================${NC}"
 
 # 停止 nacos-gateway
-if [ -f "logs/gateway.pid" ]; then
-    echo -e "${YELLOW}[1/4] 正在停止 nacos-gateway...${NC}"
-    PID=$(cat logs/gateway.pid)
+echo -e "${YELLOW}[1/4] 正在停止 nacos-gateway...${NC}"
+PID=$(ps aux | grep 'nacos-gateway-1.0.0.jar' | grep -v grep | awk '{print $2}')
+if [ ! -z "$PID" ]; then
     kill -9 $PID
-    rm -f logs/gateway.pid
     echo -e "${GREEN}nacos-gateway 已停止${NC}"
 else
     echo -e "${YELLOW}nacos-gateway 未运行${NC}"
 fi
 
 # 停止 nacos-config-demo
-if [ -f "logs/config-demo.pid" ]; then
-    echo -e "${YELLOW}[2/4] 正在停止 nacos-config-demo...${NC}"
-    PID=$(cat logs/config-demo.pid)
+echo -e "${YELLOW}[2/4] 正在停止 nacos-config-demo...${NC}"
+PID=$(ps aux | grep 'nacos-config-demo-1.0.0.jar' | grep -v grep | awk '{print $2}')
+if [ ! -z "$PID" ]; then
     kill -9 $PID
-    rm -f logs/config-demo.pid
     echo -e "${GREEN}nacos-config-demo 已停止${NC}"
 else
     echo -e "${YELLOW}nacos-config-demo 未运行${NC}"
 fi
 
 # 停止 nacos-consumer
-if [ -f "logs/consumer.pid" ]; then
-    echo -e "${YELLOW}[3/4] 正在停止 nacos-consumer...${NC}"
-    PID=$(cat logs/consumer.pid)
+echo -e "${YELLOW}[3/4] 正在停止 nacos-consumer...${NC}"
+PID=$(ps aux | grep 'nacos-consumer-1.0.0.jar' | grep -v grep | awk '{print $2}')
+if [ ! -z "$PID" ]; then
     kill -9 $PID
-    rm -f logs/consumer.pid
     echo -e "${GREEN}nacos-consumer 已停止${NC}"
 else
     echo -e "${YELLOW}nacos-consumer 未运行${NC}"
 fi
 
 # 停止 nacos-provider
-if [ -f "logs/provider.pid" ]; then
-    echo -e "${YELLOW}[4/4] 正在停止 nacos-provider...${NC}"
-    PID=$(cat logs/provider.pid)
+echo -e "${YELLOW}[4/4] 正在停止 nacos-provider...${NC}"
+PID=$(ps aux | grep 'nacos-provider-1.0.0.jar' | grep -v grep | awk '{print $2}')
+if [ ! -z "$PID" ]; then
     kill -9 $PID
-    rm -f logs/provider.pid
     echo -e "${GREEN}nacos-provider 已停止${NC}"
 else
     echo -e "${YELLOW}nacos-provider 未运行${NC}"

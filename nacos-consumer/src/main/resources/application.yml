@@ -22,6 +22,9 @@ spring:
         metadata:
           version: v1
           env: dev
+        # Nacos 3.1.1+ 需要配置用户名和密码
+        username: nacos
+        password: ${NACOS_PASSWORD:nacos} # 使用环境变量，默认值：nacos
     # LoadBalancer 负载均衡配置（核心：实时感知提供者实例）
     loadbalancer:
       # 关闭负载均衡缓存（开发环境便于测试多实例切换）
@@ -65,10 +68,15 @@ management:
       # 显示健康检查详情
       show-details: always
 
-# 日志配置（可选，便于调试）
+# 日志配置
 logging:
+  file:
+    path: /tmp/
+    name: /tmp/nacos-consumer.log
   level:
     # Spring Cloud 负载均衡日志（调试实例选择）
     org.springframework.cloud.loadbalancer: DEBUG
     # Nacos 注册发现日志
     com.alibaba.cloud.nacos: INFO
+    root: INFO
+    com.example: DEBUG
