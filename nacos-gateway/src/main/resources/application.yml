@@ -1,0 +1,69 @@
+# 网关端口（前端统一访问8888端口）
+server:
+  port: 8880
+
+spring:
+  application:
+    name: nacos-gateway # 网关服务名
+  cloud:
+    # Nacos 服务发现配置（和其他服务一致）
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: dev
+        group: DEFAULT_GROUP
+    # Gateway 核心配置
+    gateway:
+      # 路由规则配置（核心）
+      routes:
+        # 路由1：转发到消费者服务（nacos-consumer）
+        - id: consumer_route # 路由ID（唯一）
+          uri: lb://nacos-consumer # lb:// + 服务名（负载均衡转发）
+          predicates:
+            - Path=/consumer/** # 匹配路径：/consumer/** 的请求转发到消费者
+          filters:
+            - StripPrefix=0 # 不剥离路径前缀（/consumer/user/1 完整转发）
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar # 可选：添加响应头
+
+        # 路由2：转发到提供者服务（nacos-provider）
+        - id: provider_route
+          uri: lb://nacos-provider
+          predicates:
+            - Path=/provider/** # 匹配路径：/provider/** 的请求转发到提供者
+          filters:
+            - StripPrefix=0
+
+        # 路由3：转发到配置中心示例（nacos-config-demo）
+        - id: config_route
+          uri: lb://nacos-config-demo
+          predicates:
+            - Path=/config-demo/** # 匹配路径：/config-demo/** 的请求转发到配置示例
+          filters:
+            - StripPrefix=0
+
+      # 跨域配置（解决前端跨域问题）
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*" # 允许所有源（生产环境指定具体域名）
+            allowedMethods: "*" # 允许所有请求方法（GET/POST/PUT/DELETE等）
+            allowedHeaders: "*" # 允许所有请求头
+            allowCredentials: true # 允许携带Cookie
+            maxAge: 3600 # 预检请求缓存时间（秒）
+
+    # LoadBalancer 配置（网关负载均衡）
+    loadbalancer:
+      cache:
+        ttl: 0 # 关闭缓存，实时感知服务实例变化
+
+# 暴露网关端点（便于监控）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'gateway,routes,health'
+  endpoint:
+    gateway:
+      enabled: true # 开启网关端点
+    health:
+      show-details: always

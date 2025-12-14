@@ -1,0 +1,74 @@
+# 服务器端口（消费者固定8801，避免和提供者/配置示例冲突）
+server:
+  port: 8801
+
+# Spring 核心配置
+spring:
+  # 应用名称（Nacos注册的服务名，必须唯一）
+  application:
+    name: nacos-consumer
+  # 云原生相关配置（Nacos/负载均衡）
+  cloud:
+    # Nacos 服务注册发现配置
+    nacos:
+      discovery:
+        # Nacos Server 地址（本地单机版）
+        server-addr: localhost:8848
+        # 命名空间（必须和提供者/配置中心一致，dev命名空间）
+        namespace: dev
+        # 分组（默认即可，需和提供者一致）
+        group: DEFAULT_GROUP
+        # 元数据（可选，用于灰度发布/路由）
+        metadata:
+          version: v1
+          env: dev
+    # LoadBalancer 负载均衡配置（核心：实时感知提供者实例）
+    loadbalancer:
+      # 关闭负载均衡缓存（开发环境便于测试多实例切换）
+      cache:
+        ttl: 0
+      # 负载均衡策略（默认轮询，可选随机：RandomLoadBalancer）
+      # 如需自定义策略，可添加此配置
+      # configuration:
+      #   default:
+      #     algorithm: org.springframework.cloud.loadbalancer.core.RandomLoadBalancer
+
+# Feign 配置（服务调用核心）
+feign:
+  # 客户端全局配置
+  client:
+    config:
+      # 默认配置（对所有Feign客户端生效）
+      default:
+        # 连接超时时间（5秒）
+        connectTimeout: 5000
+        # 读取超时时间（5秒）
+        readTimeout: 5000
+  # 开启HttpClient（提升Feign性能）
+  httpclient:
+    enabled: true
+  # 日志级别（开发环境可开启，便于调试）
+  logger:
+    level:
+      # 对提供者Feign客户端开启DEBUG日志
+      com.example.consumer.feign.ProviderFeignClient: DEBUG
+
+# 监控端点配置（Nacos健康检查/监控）
+management:
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有端点（健康检查、配置刷新等）
+        include: '*'
+  endpoint:
+    health:
+      # 显示健康检查详情
+      show-details: always
+
+# 日志配置（可选，便于调试）
+logging:
+  level:
+    # Spring Cloud 负载均衡日志（调试实例选择）
+    org.springframework.cloud.loadbalancer: DEBUG
+    # Nacos 注册发现日志
+    com.alibaba.cloud.nacos: INFO

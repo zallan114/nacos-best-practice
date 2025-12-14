@@ -1,0 +1,25 @@
+server:
+  port: 8081 # 可启动多个实例（8081/8082）测试负载均衡
+
+spring:
+  application:
+    name: nacos-provider # 服务名（核心）
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos 服务地址
+        namespace: dev # 命名空间（需提前在Nacos控制台创建）
+        group: DEFAULT_GROUP # 分组
+        metadata: # 元数据（可用于路由、版本控制）
+          version: v1
+          env: dev
+
+# 暴露健康检查端点（Nacos心跳检测）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: nacos-config-demo
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: dev # 命名空间（需提前在Nacos控制台/配置管理/命名空间创建）
+        group: DEFAULT_GROUP # 分组（需提前在Nacos控制台/配置管理/配置列表创建）
+        file-extension: yml # 配置文件格式（yml/properties）
+        # 扩展配置（多配置文件加载）
+        extension-configs:
+          - data-id: common.yml
+            group: DEFAULT_GROUP
+            refresh: true # 支持动态刷新
+          - data-id: business.yml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: localhost:8848
+        namespace: dev
+
+# 配置动态刷新的日志级别
+logging:
+  level:
+    com.alibaba.nacos.client.config: INFO
+
+server:
+  port: 8083
+
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
