@@ -1,10 +1,13 @@
 spring:
   application:
     name: nacos-config-demo
+  config:
+    import:
+      - nacos:nacos-config-demo.yml?refreshEnabled=true&group=DEFAULT_GROUP&namespace=dev  
   cloud:
     nacos:
       config:
-        server-addr: localhost:8848
+        serverAddr: localhost:8848
         namespace: dev # 命名空间（需提前在Nacos控制台/配置管理/命名空间创建）
         group: DEFAULT_GROUP # 分组（需提前在Nacos控制台/配置管理/配置列表创建）
         username: nacos # Nacos 3.1.1+ 需要配置用户名（默认：nacos）

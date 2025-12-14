@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: nacos-provider # 服务名（核心）
+  config:
+    import:
+      - nacos:nacos-provider.yml?refreshEnabled=true&group=DEFAULT_GROUP&namespace=dev
+      # nacos:{dataId}[.{file-extension}][?{参数1}={值1}&{参数2}={值2}]
+ 
   cloud:
     nacos:
       discovery:

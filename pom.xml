@@ -56,11 +56,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- 基础依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!-- 健康检查 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

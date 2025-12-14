@@ -11,6 +11,7 @@
     <artifactId>nacos-provider</artifactId>
 
     <dependencies>
+
         <!-- 公共模块 -->
         <dependency>
             <groupId>com.example</groupId>
@@ -20,6 +21,10 @@
  
 
         <!-- Spring Boot Web（Web服务） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
        
         <!-- Nacos 服务注册发现 -->
         <dependency>

@@ -7,6 +7,10 @@ spring:
   # 应用名称（Nacos注册的服务名，必须唯一）
   application:
     name: nacos-consumer
+  # 配置导入（解决Nacos启动检查）
+  config:
+    import-check:
+      enabled: false  # 禁止Nacos配置导入检查（关键）
   # 云原生相关配置（Nacos/负载均衡）
   cloud:
     # Nacos 服务注册发现配置

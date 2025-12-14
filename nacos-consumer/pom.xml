@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>nacos-consumer</artifactId>
     <dependencies>
+
         <!-- 公共模块 -->
         <dependency>
             <groupId>com.example</groupId>
@@ -22,16 +23,27 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!-- Nacos 配置管理 -->
-        <dependency>
+        
+        <!-- Nacos 配置管理  若关闭检查后仍报配置导入错误：
+                检查是否引入了 spring-cloud-starter-alibaba-nacos-config 依赖，若无需配置中心，建议移除该依赖-->
+        <!--dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
+        </dependency-->
+
         <!-- OpenFeign（服务调用，替代 RestTemplate 推荐） -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+        <!-- Spring Boot Web（Web服务） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
         <!-- LoadBalancer（Feign 负载均衡，Spring Cloud 2023 内置） -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

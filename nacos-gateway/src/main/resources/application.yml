@@ -5,6 +5,9 @@ server:
 spring:
   application:
     name: nacos-gateway # 网关服务名
+  config:
+    import-check:
+      enabled: false  # 禁止Nacos配置导入检查（关键）
   cloud:
     # Nacos 服务发现配置（和其他服务一致）
     nacos:
