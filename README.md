@@ -1,5 +1,8 @@
 # Nacos Practice
 #### Nacos server v3.1.1: 
+![sc_diagram.png](./nacos-gateway\src\main\resources\sc_diagram.png)
+
+
   http://106.54.39.161:8080
 ```xml
         <maven.compiler.source>17</maven.compiler.source>
@@ -37,10 +40,12 @@
  ### Nacos Gateway API
  #### only gateway exposed 8880 outside, other services are hidden
  - **/test/**: Forward to baidu.com
- - http://106.54.39.161:8880/consumer/user/{id}: Forward to nacos-consumer service to get user by ID
- - http://106.54.39.161:8880/config-demo/info: Forward to nacos-config-demo service to get config info
- - http://106.54.39.161:8880/provider/user/{id}: Forward to nacos-provider service to get user by ID
- - http://106.54.39.161:8880/provider/config: Forward to nacos-provider service to get config info
+ - http://106.54.39.161:8880/consumer/user/{id} Forward to nacos-consumer service to get user by ID
+ - http://106.54.39.161:8880/config-demo/info Forward to nacos-config-demo service to get config info
+ - http://106.54.39.161:8880/provider/user/{id} Forward to nacos-provider service to get user by ID
+ - http://106.54.39.161:8880/provider/config Forward to nacos-provider service to get config info (2 instances)
 
+#### final services in nacos after startup.sh
+![nacos_services.png](./nacos-gateway\src\main\resources\nacos_services.png)
 
 
