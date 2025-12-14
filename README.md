@@ -1,6 +1,6 @@
 # Nacos Practice
 #### Nacos server v3.1.1: 
-![sc_diagram.png](./nacos-gateway\src\main\resources\sc_diagram.png)
+![sc_diagram.png](./nacos-gateway/src/main/resources/sc_diagram.png)
 
 
   http://106.54.39.161:8080
@@ -46,6 +46,6 @@
  - http://106.54.39.161:8880/provider/config Forward to nacos-provider service to get config info (2 instances)
 
 #### final services in nacos after startup.sh
-![nacos_services.png](./nacos-gateway\src\main\resources\nacos_services.png)
+![nacos_services.png](./nacos-gateway/src/main/resources/nacos_services.png)
 
 
