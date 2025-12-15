@@ -41,10 +41,10 @@ public class IllegalRequestFilter implements GlobalFilter, Ordered {
             }
 
             // 2. 校验 HTTP 版本（Reactor HTTP 底层可通过请求行解析）
-            String rawRequestLine = request.getPath().contextPath().value(); // 或从请求头解析原始请求行
-            if (rawRequestLine != null && !VALID_HTTP_VERSION.matcher(rawRequestLine).find()) {
-                return rejectRequest(exchange, "非法 HTTP 版本");
-            }
+            //String rawRequestLine = request.getPath().contextPath().value(); // 或从请求头解析原始请求行
+            //if (rawRequestLine != null && !VALID_HTTP_VERSION.matcher(rawRequestLine).find()) {
+            //    return rejectRequest(exchange, "非法 HTTP 版本");
+            //}
 
             // 3. 校验请求头是否为空（排除空请求）
             // HttpHeaders headers = request.getHeaders();
