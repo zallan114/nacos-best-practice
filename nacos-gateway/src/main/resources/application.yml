@@ -17,6 +17,13 @@ spring:
         group: DEFAULT_GROUP
         username: nacos # Nacos 3.1.1+ 需要配置用户名（默认：nacos）
         password: ${NACOS_PASSWORD:nacos} # Nacos 3.1.1+ 需要配置密码（使用环境变量，默认值：nacos）
+        # 连接池配置（默认有默认值，显式配置更稳定）
+        # max-http-connection-pool-size: 200  # 最大HTTP连接池大小
+        # keep-alive: true  # 开启HTTP长连接
+        # heart-beat-interval: 5000  # 心跳间隔（ms）
+        # heart-beat-timeout: 60000  # 心跳超时（ms）
+        # ip-delete-timeout: 120000  # 服务端删除IP超时（ms）
+        # connect-timeout: 10000  # 连接超时（ms）
         # export NACOS_PASSWORD=your_secure_password
     # Gateway 核心配置
     gateway:
