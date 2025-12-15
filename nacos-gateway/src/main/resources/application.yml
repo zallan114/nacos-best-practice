@@ -1,6 +1,6 @@
 # 网关端口（前端统一访问8888端口）
 server:
-  port: 8880
+  port: 8800
 
 spring:
   application:
@@ -20,7 +20,12 @@ spring:
         # export NACOS_PASSWORD=your_secure_password
     # Gateway 核心配置
     gateway:
+      filters:
+        - AddRequestHeader=Content-Type, application/json;charset=UTF-8
+        - AddRequestHeader=Accept-Charset, UTF-8
       # 路由规则配置（核心）
+
+      # 各个模块自己做高并发请求数量控制
       routes:
         # 路由1：转发到消费者服务（nacos-consumer）
         - id: consumer_route # 路由ID（唯一）
