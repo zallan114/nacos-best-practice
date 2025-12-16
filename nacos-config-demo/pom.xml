@@ -44,6 +44,18 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <ports>
+                            <port>8083</port>
+                        </ports>
+                        <mainClass>com.example.config.ConfigApplication</mainClass>
+                    </container>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

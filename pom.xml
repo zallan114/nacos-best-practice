@@ -26,6 +26,10 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
         <nacos-client.version>3.1.1</nacos-client.version>
+        <!-- Docker相关配置 -->
+        <docker.image.prefix>nbp</docker.image.prefix>
+        <jib-maven-plugin.version>3.4.0</jib-maven-plugin.version>
+        <docker.from>openjdk:17-jdk-alpine</docker.from>
     </properties>
     <!-- 依赖版本管理 -->
     <dependencyManagement>
@@ -74,4 +78,35 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Jib Maven Plugin for Docker image building -->
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>${jib-maven-plugin.version}</version>
+                    <configuration>
+                        <from>
+                            <image>${docker.from}</image>
+                        </from>
+                        <to>
+                            <image>${docker.image.prefix}/${project.artifactId}:${project.version}</image>
+                        </to>
+                        <container>
+                            <ports>
+                                <port>8080</port>
+                            </ports>
+                            <jvmFlags>
+                                <jvmFlag>-Xms256m</jvmFlag>
+                                <jvmFlag>-Xmx256m</jvmFlag>
+                            </jvmFlags>
+                            <mainClass>${start-class}</mainClass>
+                        </container>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

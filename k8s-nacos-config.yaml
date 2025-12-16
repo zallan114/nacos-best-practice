@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nacos-secret
+type: Opaque
+data:
+  password: bmFjb3M=  # base64 encoded "nacos"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nacos-config
+data:
+  SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: "nacos-server:8848"
+  SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR: "nacos-server:8848"

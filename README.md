@@ -49,3 +49,34 @@
 ![nacos_services.png](./nacos-gateway/src/main/resources/nacos_services.png)
 
 
+## Kubernetes Deployment
+#### k8s-nacos-config.yaml
+- nacos-secret: Stores Nacos server password , echo -n "mypass" | base64
+- nacos-config: Configures Nacos server address
+
+#### k8s-deployment.yaml
+- nacos-provider: Service provider deployment
+- nacos-consumer: Service consumer deployment
+- nacos-config-demo: Config demo deployment
+- nacos-gateway: Gateway deployment
+
+#### steps
+1. kubectl apply -f k8s-nacos-config.yaml
+2. kubectl apply -f k8s-deployment.yaml
+3. Check services in Nacos console
+    ```
+    # 检查配置资源
+    kubectl get secret nacos-secret
+    kubectl get configmap nacos-config
+
+    # 检查应用部署
+    kubectl get pods
+    kubectl get services
+    ```
+4. Test APIs through gateway
+   - http://106.54.39.161:8880/consumer/user/123
+   - http://106.54.39.161:8880/config-demo/info
+   - http://106.54.39.161:8880/provider/user/456
+   - http://106.54.39.161:8880/provider/config
+
+
