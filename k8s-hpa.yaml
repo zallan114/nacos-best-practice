@@ -1,0 +1,135 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nacos-provider-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nacos-provider  # 关联nacos-provider Deployment
+  minReplicas: 1  # 最小实例数
+  maxReplicas: 2  # 最大实例数
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # CPU利用率超过70%触发扩容
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # 内存利用率超过80%触发扩容
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30  # 扩容稳定时间
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 60  # 缩容稳定时间
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nacos-consumer-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nacos-consumer  # 关联nacos-consumer Deployment
+  minReplicas: 1  # 最小实例数
+  maxReplicas: 1  # 最大实例数
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # CPU利用率超过70%触发扩容
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # 内存利用率超过80%触发扩容
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30  # 扩容稳定时间
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 60  # 缩容稳定时间
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nacos-gateway-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nacos-gateway  # 关联nacos-gateway Deployment
+  minReplicas: 1  # 最小实例数
+  maxReplicas: 1  # 最大实例数
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60  # CPU利用率超过60%触发扩容（网关更敏感）
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 75  # 内存利用率超过75%触发扩容
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 15  # 扩容稳定时间（网关更快响应）
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 60  # 缩容稳定时间
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nacos-config-demo-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nacos-config-demo  # 关联nacos-config-demo Deployment
+  minReplicas: 1  # 最小实例数
+  maxReplicas: 1  # 最大实例数
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75  # CPU利用率超过75%触发扩容
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 85  # 内存利用率超过85%触发扩容
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30  # 扩容稳定时间
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 60  # 缩容稳定时间

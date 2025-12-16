@@ -101,6 +101,11 @@
                             <jvmFlags>
                                 <jvmFlag>-Xms256m</jvmFlag>
                                 <jvmFlag>-Xmx256m</jvmFlag>
+                                <jvmFlag>-XX:+HeapDumpOnOutOfMemoryError</jvmFlag>
+                                <jvmFlag>-XX:HeapDumpPath=/tmp/heapdump.hprof</jvmFlag>
+                                <jvmFlag>-XX:+PrintGCDetails</jvmFlag>
+                                <jvmFlag>-XX:+PrintGCTimeStamps</jvmFlag>
+                                <jvmFlag>-Xloggc:/tmp/gc.log</jvmFlag>
                             </jvmFlags>
                             <mainClass>${start-class}</mainClass>
                         </container>

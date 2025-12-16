@@ -15,6 +15,11 @@ spec:
       labels:
         app: nacos-provider
     spec:
+      volumes:
+      - name: tmp-logs
+        hostPath:
+          path: /tmp/clogs
+          type: DirectoryOrCreate
       containers:
       - name: nacos-provider
         image: nbp/nacos-provider:1.0.0
@@ -55,6 +60,9 @@ spec:
             port: 8081
           initialDelaySeconds: 30
           periodSeconds: 10
+        volumeMounts:
+        - name: tmp-logs
+          mountPath: /tmp
 ---
 apiVersion: v1
 kind: Service
@@ -84,6 +92,11 @@ spec:
       labels:
         app: nacos-consumer
     spec:
+      volumes:
+      - name: tmp-logs
+        hostPath:
+          path: /tmp/clogs
+          type: DirectoryOrCreate
       containers:
       - name: nacos-consumer
         image: nbp/nacos-consumer:1.0.0
@@ -124,6 +137,9 @@ spec:
             port: 8801
           initialDelaySeconds: 30
           periodSeconds: 10
+        volumeMounts:
+        - name: tmp-logs
+          mountPath: /tmp
 ---
 apiVersion: v1
 kind: Service
@@ -153,6 +169,11 @@ spec:
       labels:
         app: nacos-gateway
     spec:
+      volumes:
+      - name: tmp-logs
+        hostPath:
+          path: /tmp/clogs
+          type: DirectoryOrCreate
       containers:
       - name: nacos-gateway
         image: nbp/nacos-gateway:1.0.0
@@ -193,6 +214,9 @@ spec:
             port: 8800
           initialDelaySeconds: 30
           periodSeconds: 10
+        volumeMounts:
+        - name: tmp-logs
+          mountPath: /tmp
 ---
 apiVersion: v1
 kind: Service
@@ -222,6 +246,11 @@ spec:
       labels:
         app: nacos-config-demo
     spec:
+      volumes:
+      - name: tmp-logs
+        hostPath:
+          path: /tmp/clogs
+          type: DirectoryOrCreate
       containers:
       - name: nacos-config-demo
         image: nbp/nacos-config-demo:1.0.0
@@ -262,6 +291,9 @@ spec:
             port: 8083
           initialDelaySeconds: 30
           periodSeconds: 10
+        volumeMounts:
+        - name: tmp-logs
+          mountPath: /tmp
 ---
 apiVersion: v1
 kind: Service
