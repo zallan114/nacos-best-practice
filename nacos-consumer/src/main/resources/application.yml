@@ -40,6 +40,37 @@ spring:
       #   default:
       #     algorithm: org.springframework.cloud.loadbalancer.core.RandomLoadBalancer
 
+    sentinel:
+      transport:
+        dashboard: localhost:8888 # Sentinel控制台地址（需单独启动）
+        port: 8719 # 客户端与控制台通信端口
+      eager: true # 饥饿加载，避免首次请求触发限流
+    datasource:
+      # 自定义数据源名称（可任意）
+      flow-rule:
+        file:
+          # 规则文件路径（classpath 下的 sentinel-flow-rules.json）
+          file: 'classpath:sentinel-flow-rules.json'
+          # 数据格式（JSON/YAML）
+          data-type: json
+          # 规则类型（flow=限流，degrade=熔断，etc.）
+          rule-type: flow
+          #  - 为byOrderStatus资源设置QPS限流阈值为20
+          #  - 为/api/products/**路径设置QPS限流阈值为100
+      # 熔断降级规则配置
+      degrade-rule:
+        file:
+          file: 'classpath:sentinel-degrade-rules.json'
+          data-type: json
+          rule-type: degrade
+          #  grade : 熔断策略（0: 基于RT，1: 基于异常比例，2: 基于异常数）
+          #  - RT模式：响应时间阈值（毫秒）
+          #  - 异常比例模式：异常比例阈值（0-1之间）
+          #  - 异常数模式：异常数量阈值
+          #- 对byOrderStatus资源：当响应时间超过200ms时熔断，熔断10秒
+          #- 对/api/orders/**路径：当异常比例超过50%时熔断，熔断15秒
+          #- 对/api/payments/**路径：当异常数超过5个时熔断，熔断20秒
+
 # Feign 配置（服务调用核心）
 feign:
   # 客户端全局配置
@@ -77,7 +108,7 @@ thread:
       keep-alive-seconds: 30
       queue-size: 500
       pool-name: io-task-pool
-      
+
 # 监控端点配置（Nacos健康检查/监控）
 management:
   endpoints:
