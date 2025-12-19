@@ -1,0 +1,23 @@
+{
+  "name": "nacos-best-practice",
+  "version": "1.0.0",
+  "description": "Nacos Best Practice Project",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "{,**/}*.{md,json,yml,js,cjs,mjs,ts,cts,mts,java,html,vue,css,scss}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "15.5.2",
+    "prettier": "3.5.3",
+    "prettier-plugin-java": "2.6.7",
+    "prettier-plugin-packagejson": "2.5.11"
+  },
+  "engines": {
+    "node": ">=22.15.0"
+  }
+}
