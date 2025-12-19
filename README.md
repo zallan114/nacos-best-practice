@@ -72,6 +72,8 @@
     # 检查应用部署
     kubectl get pods
     kubectl get services
+	
+	# 分布式事务， 可通过seata, 但是推荐避开， 通过业务设计迎合80%以上的需求
     ```
 4. Test APIs through gateway
    - http://106.54.39.161:8880/consumer/user/123

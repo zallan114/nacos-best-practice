@@ -1,0 +1,9 @@
+[
+  {
+    "resource": "byOrderStatus",
+    "grade": 0,
+    "count": 500,
+    "limitApp": "default",
+    "strategy": 0
+  }
+]

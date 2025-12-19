@@ -1,0 +1,26 @@
+[
+  {
+    "resource": "byOrderStatus",
+    "grade": 0,
+    "count": 200,
+    "timeWindow": 10,
+    "minRequestAmount": 5,
+    "statIntervalMs": 1000
+  },
+  {
+    "resource": "/api/orders/**",
+    "grade": 1,
+    "count": 0.5,
+    "timeWindow": 15,
+    "minRequestAmount": 10,
+    "statIntervalMs": 1000
+  },
+  {
+    "resource": "/api/payments/**",
+    "grade": 2,
+    "count": 5,
+    "timeWindow": 20,
+    "minRequestAmount": 5,
+    "statIntervalMs": 1000
+  }
+]

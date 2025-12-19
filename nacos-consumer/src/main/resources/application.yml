@@ -60,6 +60,24 @@ feign:
       # 对提供者Feign客户端开启DEBUG日志
       com.example.consumer.feign.ProviderFeignClient: DEBUG
 
+# 线程池自定义配置（支持Nacos/Spring Cloud Config动态刷新）
+thread:
+  pool:
+    # CPU密集型线程池（如计算、排序）
+    cpu:
+      core-size: ${CPU_CORE:${random.int[2,4]}} # 默认2-4核，可通过环境变量覆盖
+      max-size: ${CPU_MAX:${random.int[4,8]}} # CPU核心数×2
+      keep-alive-seconds: 60
+      queue-size: 1000
+      pool-name: cpu-task-pool
+    # IO密集型线程池（如HTTP请求、数据库操作）
+    io:
+      core-size: ${IO_CORE:${random.int[8,16]}} # CPU核心数×2+1
+      max-size: ${IO_MAX:${random.int[20,40]}} # CPU核心数×10
+      keep-alive-seconds: 30
+      queue-size: 500
+      pool-name: io-task-pool
+      
 # 监控端点配置（Nacos健康检查/监控）
 management:
   endpoints:
