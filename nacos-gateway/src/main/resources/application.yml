@@ -12,6 +12,7 @@ spring:
     # Nacos 服务发现配置（和其他服务一致）
     nacos:
       discovery:
+        #enabled: false # 临时禁用Nacos服务发现
         server-addr: localhost:8848
         namespace: dev
         group: DEFAULT_GROUP

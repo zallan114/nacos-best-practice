@@ -2,14 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.we.example</groupId>
+    <artifactId>nacos-gateway</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
     <parent>
         <groupId>com.example</groupId>
         <artifactId>nacos-best-practice</artifactId>
         <version>1.0.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>nacos-gateway</artifactId>
-
+    <properties>
+        <node.version>v22.15.0</node.version>
+        <npm.version>11.3.0</npm.version>
+	<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
+    </properties>
     <dependencies>
         <!-- Spring Cloud Gateway 核心依赖 -->
         <dependency>
@@ -27,11 +34,8 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <!-- 健康检查 -->
-  
         <!-- lombok（可选） -->
- 
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -57,6 +61,60 @@
                         <mainClass>com.example.gateway.GatewayApplication</mainClass>
                     </container>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>target/classes/static/</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>${frontend-maven-plugin.version}</version>
+                <configuration>
+                    <installDirectory>target</installDirectory>
+                    <nodeVersion>${node.version}</nodeVersion>
+                    <npmVersion>${npm.version}</npmVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-node-and-npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                    </execution>
+                    
+                    <execution>
+                        <id>webapp build prod</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>run webapp:prod</arguments>
+                            <environmentVariables>
+                                <APP_VERSION>${project.version}</APP_VERSION>
+                            </environmentVariables>
+                            <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
