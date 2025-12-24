@@ -6,9 +6,10 @@ spring:
     name: nacos-provider # 服务名（核心）
   config:
     import:
-      - nacos:nacos-provider.yml?refreshEnabled=true&group=DEFAULT_GROUP&namespace=dev
+      - nacos:nacos-provider.yml?refreshEnabled=true&group=DEFAULT_GROUP&namespace=dev&fail-fast=false
       # nacos:{dataId}[.{file-extension}][?{参数1}={值1}&{参数2}={值2}]
- 
+      #The current setup imports Nacos config at startup, which could also cause failure if Nacos is unavailable
+
   cloud:
     nacos:
       discovery:
@@ -17,6 +18,7 @@ spring:
         group: DEFAULT_GROUP # 分组
         username: nacos # Nacos 3.1.1+ 需要配置用户名（默认：nacos）
         password: ${NACOS_PASSWORD:nacos} # Nacos 3.1.1+ 需要配置密码（使用环境变量，默认值：nacos）
+        fail-fast: false # 设置为false，当Nacos不可用时应用仍可启动
         metadata: # 元数据（可用于路由、版本控制）
           version: v1
           env: dev
@@ -39,3 +41,58 @@ logging:
   level:
     root: INFO
     com.example: DEBUG
+
+  # 「自然语言解析→订单提取→业务查询→智能回复」
+  # Spring AI OpenAI 配置（替换为你的 API Key，本地用 Ollama 可替换对应配置）
+  #spring:
+  ai:
+    openai:
+      api-key: sk-你的OpenAI API Key
+      chat:
+        model: gpt-3.5-turbo # 轻量版，成本低，适合客服场景
+        temperature: 0.2 # 降低随机性，保证回复准确性
+        max-tokens: 500 # 限制回复长度
+
+    ollama:
+      base-url: http://localhost:11434 # Ollama 本地地址
+      chat:
+        model: llama3 # 本地模型名称
+        #model: qwen2:7b # 替换为国内通义千问模型（与你拉取的模型名称一致）
+        temperature: 0.2
+        max-tokens: 500
+        timeout: 30000 # 超时时间（国内模型响应稍慢，适当延长）
+
+    ernie:
+      api-key: 你的百度文心一言API-KEY
+      secret-key: 你的百度文心一言Secret-Key
+      chat:
+        model: ernie-3.5-turbo # 轻量版，适合客服场景
+        temperature: 0.2
+        max-tokens: 500
+        #登录「百度智能云控制台」（https://console.bce.baidu.com/），开通「文心一言」服务，
+        # 在「应用列表」中创建应用，获取 API-KEY 和 Secret-Key。
+
+# 阿里云通义千问 在线 API 配置
+aliyun:
+  dashscope:
+    api-key: ${ALIYUN_API_KEY:sk-xxx1} #你的阿里云通义千问API-KEY # 替换为你的真实 API-KEY
+    chat-api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation # 通义千问聊天 API 地址
+    #chat-api-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions # 兼容 OpenAI 的完整接口地址（需补充 /chat/completions 后缀）
+
+    model: qwen-turbo # 轻量版模型，性价比高
+
+# 自定义配置：订单查询提示词模板
+ecommerce:
+  customer:
+    service:
+      prompt-template: |
+        你的任务是作为电商客服助手，完成以下步骤：
+        1. 从用户的问题中提取关键信息：订单号（格式：ORD-xxxx，xxxx为数字）、用户名（可选）
+        2. 如果无法提取订单号，回复："抱歉，我未找到你的订单号，请提供格式为ORD-xxxx的订单号（xxxx为数字）"
+        3. 如果提取到订单号，调用订单查询接口，将查询结果整理为自然、友好的回复，无需额外无关内容
+        订单查询结果格式参考：
+        订单号：{orderNo}
+        用户名：{username}
+        订单状态：{status}（待付款/已付款/已发货/已完成/已取消）
+        商品名称：{productName}
+        下单时间：{createTime}
