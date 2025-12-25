@@ -38,6 +38,14 @@ public class DashScopeApiClient {
     @Value("${aliyun.dashscope.model}")
     private String model;
 
+    // 温度参数
+    @Value("${aliyun.dashscope.temperature}")
+    private Double temperature;
+
+    // 最大令牌数
+    @Value("${aliyun.dashscope.max-tokens}")
+    private Integer maxTokens;
+
     /**
      * 调用通义千问兼容 OpenAI 格式的 API
      */
@@ -54,8 +62,8 @@ public class DashScopeApiClient {
         // 2. 构造请求体（完全兼容 OpenAI 格式）
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", model);
-        requestBody.put("temperature", 0.2);
-        requestBody.put("max_tokens", 500);
+        requestBody.put("temperature", temperature);
+        requestBody.put("max_tokens", maxTokens);
 
         // 消息体（OpenAI 格式）
         List<Map<String, String>> messages = new ArrayList<>();
@@ -108,8 +116,8 @@ public class DashScopeApiClient {
 
         // 生成配置
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("temperature", 0.2); // 降低随机性
-        parameters.put("max_tokens", 500); // 限制回复长度
+        parameters.put("temperature", temperature); // 降低随机性
+        parameters.put("max_tokens", maxTokens); // 限制回复长度
 
         requestBody.put("input", input);
         requestBody.put("parameters", parameters);

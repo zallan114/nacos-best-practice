@@ -80,6 +80,8 @@ aliyun:
     #chat-api-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions # 兼容 OpenAI 的完整接口地址（需补充 /chat/completions 后缀）
 
     model: qwen-turbo # 轻量版模型，性价比高
+    max-tokens: 500 # 最大生成令牌数
+    temperature: 0.1 # 温度越低，回复越稳定（订单查询需精准，建议 0-0.2）
 
 # 自定义配置：订单查询提示词模板
 ecommerce:

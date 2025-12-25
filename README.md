@@ -24,7 +24,7 @@ http://106.54.39.161:8080
 - **nacos-provider**: Service provider module
 
   - Provides user information and config query services
-  - Add AI capability from Aliyun qwen-turbo: Order status query Intelligence
+  - Add AI capability from Aliyun qwen-turbo: Order status query Intelligence, based on spring-AI
 
 - **nacos-consumer**: Service consumer module
 
@@ -36,8 +36,13 @@ http://106.54.39.161:8080
   - Demonstrates dynamic config refresh from Nacos Config Center
 
 - **nacos-gateway**: API Gateway module
+
   - Routes requests to nacos-consumer, nacos-provider, and nacos-config-demo
-  - Provides a UI to for AI chatting (TODO)
+  - Provides a UI for AI chatting (TODO)
+
+- **nacos-ai-agent**: AI Agent module
+  - Integrates Aliyun qwen-turbo for customer order status query intelligence, using langchain4j, can be supported by backend DB
+  - will support other AI models in the future or offline ollama
 
 ## API Documentation
 

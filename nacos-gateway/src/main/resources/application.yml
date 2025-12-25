@@ -7,7 +7,7 @@ spring:
     name: nacos-gateway # 网关服务名
   config:
     import-check:
-      enabled: false  # 禁止Nacos配置导入检查（关键）
+      enabled: false # 禁止Nacos配置导入检查（关键）
   cloud:
     # Nacos 服务发现配置（和其他服务一致）
     nacos:
@@ -60,13 +60,21 @@ spring:
           filters:
             - StripPrefix=0
 
+        # 路由4：转发到agent客服服务（nacos-ai-agent）
+        - id: agent_route
+          uri: lb://nacos-ai-agent
+          predicates:
+            - Path=/agent/** # 匹配路径：/agent/** 的请求转发到agent客服
+          filters:
+            - StripPrefix=0
+
       # 跨域配置（解决前端跨域问题）
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOriginPatterns: "*" # 允许所有源（生产环境指定具体域名）
-            allowedMethods: "*" # 允许所有请求方法（GET/POST/PUT/DELETE等）
-            allowedHeaders: "*" # 允许所有请求头
+            allowedOriginPatterns: '*' # 允许所有源（生产环境指定具体域名）
+            allowedMethods: '*' # 允许所有请求方法（GET/POST/PUT/DELETE等）
+            allowedHeaders: '*' # 允许所有请求头
             allowCredentials: true # 允许携带Cookie
             maxAge: 3600 # 预检请求缓存时间（秒）
 
