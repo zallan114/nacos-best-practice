@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.example.agent.AiAgentApplication;
 import com.example.agent.dto.OrderQueryRequest;
 import com.example.agent.dto.OrderQueryResponse;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
  * 订单查询集成测试
  * 测试完整的调用流程：Controller -> AI Agent -> Tool -> Service
  */
+@Disabled("跳过真实API调用测试")
 @SpringBootTest(
     classes = AiAgentApplication.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,

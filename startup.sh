@@ -48,7 +48,17 @@ echo -e "${GREEN}nacos-provider 实例 2 已启动${NC}"
 # 等待1秒
 sleep 1
 
-# [3/6]
+# [3/6] nacos-ai-agent
+echo -e "${YELLOW}[3/6] 正在启动 nacos-ai-agent...${NC}"
+cd nacos-ai-agent
+nohup java -jar target/nacos-ai-agent-1.0.0.jar $JAVA_OPTS > /dev/null 2>&1 &
+cd ..
+echo -e "${GREEN}nacos-ai-agent 已启动${NC}"
+
+# 等待1秒
+sleep 1
+
+
 
 # 启动 nacos-consumer
 echo -e "${YELLOW}[4/6] 正在启动 nacos-consumer...${NC}"

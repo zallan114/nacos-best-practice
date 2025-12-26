@@ -12,6 +12,8 @@ import { setupAxiosInterceptors } from '@/shared/config/axios-interceptor';
 import { initFortAwesome, initI18N } from '@/shared/config/config';
 import { initBootstrapVue } from '@/shared/config/config-bootstrap-vue';
 
+import { useLoginModal } from '@/account/login-modal';
+import AccountService from '@/account/account.service';
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
@@ -59,9 +61,9 @@ const app = createApp({
   compatConfig: { MODE: 3 },
   components: { App },
   setup() {
-    // const { hideLogin, showLogin } = useLoginModal();
+    const { hideLogin, showLogin } = useLoginModal();
     const store = useStore();
-    // const accountService = new AccountService(store);
+    const accountService = new AccountService(store);
     const i18n = useI18n();
     const translationStore = useTranslationStore();
     const translationService = new TranslationService(i18n);
@@ -101,20 +103,20 @@ const app = createApp({
 
     router.beforeResolve(async (to, from, next) => {
       // Make sure login modal is closed
-      // hideLogin();
+      hideLogin();
 
-      // if (!store.authenticated) {
-      //   await accountService.update();
-      // }
-      // if (to.meta?.authorities && to.meta.authorities.length > 0) {
-      //   const value = await accountService.hasAnyAuthorityAndCheckAuth(to.meta.authorities);
-      //   if (!value) {
-      //     if (from.path !== '/forbidden') {
-      //       next({ path: '/forbidden' });
-      //       return;
-      //     }
-      //   }
-      // }
+      if (!store.authenticated) {
+        await accountService.update();
+      }
+      if (to.meta?.authorities && to.meta.authorities.length > 0) {
+        const value = await accountService.hasAnyAuthorityAndCheckAuth(to.meta.authorities);
+        if (!value) {
+          if (from.path !== '/forbidden') {
+            next({ path: '/forbidden' });
+            return;
+          }
+        }
+      }
       next();
     });
 
@@ -127,7 +129,7 @@ const app = createApp({
           store.logout();
           if (!url.endsWith('api/account') && !url.endsWith('api/authenticate')) {
             // Ask for a new authentication
-            // showLogin();
+            showLogin();
             return;
           }
         }
@@ -146,7 +148,7 @@ const app = createApp({
     );
 
     provide('translationService', translationService);
-    // provide('accountService', accountService);
+    provide('accountService', accountService);
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
   },
   template: '<App/>',
@@ -154,8 +156,4 @@ const app = createApp({
 
 initFortAwesome(app);
 
-app
-  .use(router)
-  .use(pinia)
-  .use(i18n)
-  .mount('#app');
+app.use(router).use(pinia).use(i18n).mount('#app');

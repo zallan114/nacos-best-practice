@@ -28,7 +28,7 @@ public class RateLimitAspect {
     private final Map<String, RateLimiter> rateLimiterMap = new HashMap<>();
 
     // 拦截所有标注 @RateLimit 的方法
-    @Around("@annotation(com.example.demo.annotation.RateLimit)")
+    @Around("@annotation(com.example.consumer.aop.RateLimit)")
     @ResponseBody
     public Object limit(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

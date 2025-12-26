@@ -46,18 +46,18 @@ let config = defineConfig({
   },
   define: {
     I18N_HASH: '"generated_hash"',
-    SERVER_API_URL: '"/"',
+    SERVER_API_URL: '""',
     APP_VERSION: `"${process.env.APP_VERSION ? process.env.APP_VERSION : 'DEV'}"`,
   },
   server: {
     host: true,
     port: 9000,
     proxy: Object.fromEntries(
-      ['/api', '/management', '/v3/api-docs'].map(res => [
+      ['/api', '/management', '/v3/api-docs', '/agent'].map(res => [
         res,
         {
-          target: 'http://localhost:8080',
-
+          //target: 'http://localhost:8080',
+          target: 'http://106.54.39.161:8880',
         },
       ]),
     ),

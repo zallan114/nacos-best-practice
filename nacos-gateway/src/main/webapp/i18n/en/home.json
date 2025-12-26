@@ -1,0 +1,19 @@
+{
+  "home": {
+    "title": "AI Agent",
+    "subtitle": "Allan Zhou",
+    "logged": {
+      "message": "You are logged in as user \"{ username }\"."
+    },
+    "question": "欢迎访问",
+    "link": {
+      "homepage": "My Home Page",
+      "stackoverflow": "My Stack Overflow",
+      "bugtracker": "My Bug Tracker",
+      "chat": "My Public Chat Room",
+      "follow": "follow {'@'}allanzhou on Twitter"
+    },
+    "like": "Github site: ",
+    "github": "GitHub"
+  }
+}

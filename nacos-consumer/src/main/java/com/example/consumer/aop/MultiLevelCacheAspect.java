@@ -1,4 +1,9 @@
 package com.example.consumer.aop;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -6,12 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 
-
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 /**
  * 
     // 多级缓存：本地缓存5分钟，Redis缓存1小时
@@ -28,20 +28,17 @@ public class MultiLevelCacheAspect {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
     // @Autowired
     // private BloomFilter<String> bloomFilter;
 
     // 本地缓存容器（代替CaffeineCacheManager，手动控制更灵活）
-    private final Cache<String, Object> localCache = Caffeine.newBuilder()
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            .maximumSize(1000)
-            .build();
+    private final Cache<String, Object> localCache = Caffeine.newBuilder().expireAfterWrite(5, TimeUnit.MINUTES).maximumSize(1000).build();
+
     // @Autowired
     // private Cache<String, Object> caffeineCacheManager;
 
-
-
-    @Around("@annotation(com.example.demo.annotation.MultiLevelCache)")
+    @Around("@annotation(com.example.consumer.aop.MultiLevelCache)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();

@@ -52,6 +52,18 @@ else
     echo -e "${YELLOW}nacos-provider 未运行${NC}"
 fi
 
+# 停止 nacos-ai-agent
+echo -e "${YELLOW}[5/4] 正在停止 nacos-ai-agent...${NC}"
+PID=$(ps aux | grep 'nacos-ai-agent-1.0.0.jar' | grep -v grep | awk '{print $2}')
+if [ ! -z "$PID" ]; then
+    kill -9 $PID
+    echo -e "${GREEN}nacos-ai-agent 已停止${NC}"
+else
+    echo -e "${YELLOW}nacos-ai-agent 未运行${NC}"
+fi
+
+
+
 echo -e "${GREEN}=====================================${NC}"
 echo -e "${GREEN}所有应用停止完成！${NC}"
 echo -e "${GREEN}=====================================${NC}"

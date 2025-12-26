@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: nacos-ai-agent-test
+  config:
+    import-check:
+      enabled: false # 禁止Nacos配置导入检查（关键）
+  cloud:
+    nacos:
+      discovery:
+        # 测试环境Nacos Server 地址
+        server-addr: localhost:8848
+        namespace: dev
+        group: DEFAULT_GROUP
+        username: nacos
+        password: ${NACOS_PASSWORD:nacos}
+        fail-fast: false
+
+# 测试环境LangChain4j配置
+langchain4j:
+  community:
+    dashscope:
+      # 对话模型（测试环境）
+      chat-model:
+        api-key: ${TEST_ALIYUN_API_KEY:sk-7054} # 使用测试环境变量，默认值为测试用密钥
+        model-name: qwen-plus
+        temperature: 0.1
+        max-tokens: 1000
+        timeout: 30000
+        stream: false
+
+      # 嵌入模型（测试环境）
+      embedding-model:
+        api-key: ${TEST_ALIYUN_API_KEY:sk-test-xxx} # 使用测试环境变量，默认值为测试用密钥
+        model-name: text-embedding-v4
+        dimensions: 1536
+
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+
+server:
+  port: 8090 # 测试环境使用不同端口

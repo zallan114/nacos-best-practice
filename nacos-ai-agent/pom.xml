@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>nacos-best-practice</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>nacos-ai-agent</artifactId>
+
+
+    <properties>
+        <java.version>17</java.version>
+        <!-- langchain4j 官方核心版最新稳定版 -->
+        <langchain4j.version>1.10.0</langchain4j.version>
+        <!-- 阿里DashScope SDK 版本（与langchain4j适配） -->
+        <dashscope.sdk.version>2.22.4</dashscope.sdk.version>
+
+        <langchain4j-community.version>1.10.0-beta18</langchain4j-community.version>
+    </properties>
+
+    <dependencies>
+
+
+        <!-- Nacos 服务发现（可选） -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web（Web服务） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
+        <!-- Spring Data JPA（PG Vector 依赖） -->
+        <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency> -->
+
+        <!-- PostgreSQL 驱动（PG Vector 向量存储） -->
+        <!-- <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency> -->
+
+        <!-- LangChain4j 官方核心 -->
+        <!-- https://central.sonatype.com/artifact/dev.langchain4j/langchain4j/dependencies -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+
+        <!-- LangChain4j 阿里DashScope 官方集成（对话模型） -->
+        <!-- 会自动传递依赖 langchain4j-core 1.10.0 和 dashscope-sdk-java 2.22.4 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-dashscope</artifactId>
+            <version>${langchain4j-community.version}</version>
+        </dependency>
+
+       <!-- 替代原官方启动器 langchain4j-spring-boot-starter -->
+       <!-- https://central.sonatype.com/artifact/dev.langchain4j/langchain4j-community-dashscope-spring-boot-starter/1.10.0-beta18 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-dashscope-spring-boot-starter</artifactId>
+            <version>${langchain4j-community.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-agentic</artifactId>
+            <version>${langchain4j-community.version}</version>
+        </dependency>
+
+        <!-- 阿里DashScope SDK（可选，手动调用时使用） -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dashscope-sdk-java</artifactId>
+            <version>${dashscope.sdk.version}</version>
+        </dependency>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <ports>
+                            <port>8089</port>
+                        </ports>
+                        <mainClass>com.example.agent.AiAgentApplication</mainClass>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

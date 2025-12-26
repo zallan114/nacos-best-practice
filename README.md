@@ -38,11 +38,12 @@ http://106.54.39.161:8080
 - **nacos-gateway**: API Gateway module
 
   - Routes requests to nacos-consumer, nacos-provider, and nacos-config-demo
-  - Provides a UI for AI chatting (TODO)
 
 - **nacos-ai-agent**: AI Agent module
   - Integrates Aliyun qwen-turbo for customer order status query intelligence, using langchain4j, can be supported by backend DB
   - will support other AI models in the future or offline ollama
+  - Provides a UI for AI chatting - http://106.54.39.161:8880
+    ![chat-box.png](./nacos-ai-agent/src/main/resources/chat-demo.png)
 
 ## API Documentation
 

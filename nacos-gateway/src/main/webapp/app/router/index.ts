@@ -1,6 +1,6 @@
 import { createRouter as createVueRouter, createWebHistory } from 'vue-router';
 
-const App = () => import('@/app.vue');
+const Home = () => import('@/core/home/home.vue');
 
 const Error = () => import('@/core/error/error.vue');
 // import account from '@/router/account';
@@ -15,7 +15,7 @@ export const createRouter = () =>
       {
         path: '/',
         name: 'Home',
-        component: App,
+        component: Home,
       },
       // {
       //   path: '/dashboard',
